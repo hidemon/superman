@@ -9,8 +9,14 @@ import com.aliasi.chunk.Chunker;
 import com.aliasi.chunk.Chunking;
 
 import semantics.chunker.FilenameRegExChunker;
+import semantics.exception.InvalidParameterException;
 import semantics.exception.NoTokenFoundException;
-
+/**
+ * The class which is responsible for translating
+ * commands regarding compilation to structural instructions.
+ * 
+ * @author Yu
+ */
 public class CompilationTranslator {
 
 	public static String translateCompile(String input) throws NoTokenFoundException {
@@ -27,12 +33,12 @@ public class CompilationTranslator {
 		case "java": return generateCommand(filenames, "javac");
 		case "c":
 		case "cc":
-		case "cpp": return generateCommand(filenames, "cl");
+		case "cpp": return generateCommand(filenames, "g++");
 		}
 		return "";
 	}
 	
-	public static String translateRun(String input) throws NoTokenFoundException {
+	public static String translateRun(String input) throws NoTokenFoundException, InvalidParameterException {
 		Chunker chunker = new FilenameRegExChunker();
 		Chunking chunking= chunker.chunk(input);
 		Set<Chunk> chunkSet = chunking.chunkSet();
@@ -51,8 +57,12 @@ public class CompilationTranslator {
 			 return generateCommand(filenames, "java");
 		case "c":
 		case "cc":
-			// To do..
-		case "cpp": return generateCommand(filenames, "cl");
+		case "cpp":
+			if (filenames.size() != 1) throw new InvalidParameterException();
+			String filenameWithoutPostfix = filenames.get(0).split("\\.")[0];
+			String cCommand1 = "g++ " + filenames.get(0) + " -o " + filenameWithoutPostfix;
+			String cCommand2 = "./" + filenameWithoutPostfix;
+			return cCommand1 + '\n' + cCommand2;
 		}
 		return "";
 	}
@@ -75,8 +85,10 @@ public class CompilationTranslator {
 		return newFilenames;
 	}
 	
+	// Get the file type of the specified file, return empty string if it's
+	// an executable file.
 	private static String getFileType(String filename) {
-		return filename.split("\\.")[1];
+		return filename.indexOf('.') == -1 ? "" : filename.split("\\.")[1];
 	}
 	
 	private static String generateCommand(List<String> filenames, String command) {

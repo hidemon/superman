@@ -69,12 +69,13 @@ public class NLTranslator {
 			e.printStackTrace();
 		}
 		
-		command = "superman compile helloworld.c";
+		command = "superman run helloworld.c";
 		try {
 			System.out.println(translator.translate(command));
 		} catch (NoTokenFoundException | InvalidParameterException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 }

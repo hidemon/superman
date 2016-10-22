@@ -1,7 +1,11 @@
 package semantics.chunker;
 
 import com.aliasi.chunk.RegExChunker;
-
+/**
+ * The chunker for filenames.
+ * 
+ * @author Yu
+ */
 public class FilenameRegExChunker extends RegExChunker {
 
 	private static final long serialVersionUID = 8877775874859603758L;
