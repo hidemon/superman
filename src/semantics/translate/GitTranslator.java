@@ -48,4 +48,8 @@ public class GitTranslator {
         result.append(input.substring(urlChunk.start(), urlChunk.end()));
         return result.toString();
 	}
+
+	public static String translatePull(String input) {
+		return "git pull";
+	}
 }

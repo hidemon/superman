@@ -19,6 +19,8 @@ public class SemanticsMap {
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].equals("git")) {
 				setUpGit();
+			} else if (args[i].equals("compile")) {
+				setUpComplition();
 			}
 		}
 	}
@@ -32,7 +34,11 @@ public class SemanticsMap {
 		
 		dictionary.addEntry(new DictionaryEntry<String>("clone", "clone", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("merge", "merge", CHUNK_SCORE));
-		
+		dictionary.addEntry(new DictionaryEntry<String>("pull", "pull", CHUNK_SCORE));
+		dictionary.addEntry(new DictionaryEntry<String>("sync", "pull", CHUNK_SCORE));
+	}
+	
+	public void setUpComplition() {
 		dictionary.addEntry(new DictionaryEntry<String>("compile", "compile", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("javac", "compile", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("run", "run", CHUNK_SCORE));

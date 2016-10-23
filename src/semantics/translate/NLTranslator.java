@@ -38,6 +38,7 @@ public class NLTranslator {
 	    switch(tokens.get(0)) {
 	    case "diff": return GitTranslator.translateDiff(input);
 	    case "clone": return GitTranslator.translateClone(input);
+	    case "pull": return GitTranslator.translatePull(input);
 	    case "compile": return CompilationTranslator.translateCompile(input);
 	    case "run": return CompilationTranslator.translateRun(input);
 	    default: return "Cannot recognize the command!";
@@ -47,7 +48,7 @@ public class NLTranslator {
 	
 	public static void main(String[] args) {
 		
-		NLTranslator translator = new NLTranslator("git");
+		NLTranslator translator = new NLTranslator("git", "compile");
 		String command = "superman find difference between 52345f and d89a32";
 		try {
 			System.out.println(translator.translate(command));
