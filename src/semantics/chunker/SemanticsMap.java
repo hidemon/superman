@@ -37,6 +37,11 @@ public class SemanticsMap {
 		dictionary.addEntry(new DictionaryEntry<String>("pull", "pull", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("sync", "pull", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("synchronize", "pull", CHUNK_SCORE));
+		
+		dictionary.addEntry(new DictionaryEntry<String>("rm", "rm", CHUNK_SCORE));
+		dictionary.addEntry(new DictionaryEntry<String>("remove", "rm", CHUNK_SCORE));
+		dictionary.addEntry(new DictionaryEntry<String>("delete", "rm", CHUNK_SCORE));
+		
 	}
 	
 	public void setUpComplition() {

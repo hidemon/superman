@@ -45,10 +45,13 @@ public class NLTranslator {
 			return GitTranslator.translateClone(input);
 		case "pull":
 			return GitTranslator.translatePull(input);
+		case "rm":
+			return GitTranslator.translateRm(input);
 		case "compile":
 			return CompilationTranslator.translateCompile(input);
 		case "run":
 			return CompilationTranslator.translateRun(input);
+
 		default:
 			return "Cannot recognize the command!";
 		}
@@ -73,10 +76,11 @@ public class NLTranslator {
 			
 			command = "superman ru helloworld.c";
 			System.out.println(translator.translate(command));
+			
+			command = "superman please delete helloworld.c";
+			System.out.println(translator.translate(command));
 		} catch (NoTokenFoundException | InvalidParameterException e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }
