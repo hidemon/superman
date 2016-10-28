@@ -57,6 +57,27 @@ public class GitTranslator {
 		result.append(input.substring(urlChunk.start(), urlChunk.end()));
 		return result.toString();
 	}
+	
+	public static String translateMv(String input) throws InvalidParameterException, NoTokenFoundException {
+		Chunker chunker = new FilenameRegExChunker();
+		Chunking chunking = chunker.chunk(input);
+		Set<Chunk> chunkSet = chunking.chunkSet();
+		if (chunkSet.size() == 0) {
+			throw new NoTokenFoundException();
+		}
+		if (chunkSet.size() != 2) {
+			throw new InvalidParameterException();
+		}
+		Iterator<Chunk> it = chunkSet.iterator();
+		StringBuilder result = new StringBuilder("git mv");
+		while (it.hasNext()) {
+			Chunk chunk = it.next();
+			int start = chunk.start();
+			int end = chunk.end();
+			result.append(' ').append(input.substring(start, end));
+		}
+		return result.toString();
+	}
 
 	public static String translatePull(String input) {
 		return "git pull";
