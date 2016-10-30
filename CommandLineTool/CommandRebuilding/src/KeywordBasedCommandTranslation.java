@@ -1,22 +1,59 @@
 /**
- * Created by lijingjiang on 10/30/16.
+ * Created by lijingjiang on 10/30/16 2:57PM.
  */
 
 public class KeywordBasedCommandTranslation {
   public static String nlpToCommand(String input) {
-    /**
-     * The following code will create git command from the processed nature
-     * language
-     *
-     * I have created a elastic regular expression Library, so the following
-     * code is easy to understand and change
-     */
+    VerbalExpression gitCreate = VerbalExpression.regex()
+                                     .startOfLine()
+                                     .then("superman")
+                                     .anything()
+                                     .then("create")
+                                     .anything()
+                                     .build();
 
-    /**
-     * Command input: git clone
-     * input requirement: superman *** clone ***
-     * eg: superman clone
-     */
+    if (gitCreate.testExact(input)) {
+      String result = "git init;";
+      return result;
+    }
+
+    VerbalExpression gitRemoteAdding = VerbalExpression.regex()
+                                           .startOfLine()
+                                           .then("superman")
+                                           .anything()
+                                           .then("add")
+                                           .anything()
+                                           .then("remote")
+                                           .anything()
+                                           .then("http")
+                                           .maybe("s")
+                                           .then("://")
+                                           .maybe("www.")
+                                           .then("github.com")
+                                           .then("/")
+                                           .capture()
+                                           .anythingBut("/")
+                                           .endCapture()
+                                           .then("/")
+                                           .capture()
+                                           .anythingBut("/")
+                                           .endCapture()
+                                           .anything()
+                                           .build();
+
+    if (gitRemoteAdding.testExact(input)) {
+      String userName = gitRemoteAdding.getText(input, 1);
+      String repoName = gitRemoteAdding.getText(input, 2);
+      String prefix = "git remote add origin https://github.com/";
+      String result = prefix + userName + "/" + repoName;
+      return result;
+    }
+
+    if (gitCreate.testExact(input)) {
+      String result = "git init;";
+      return result;
+    }
+
     VerbalExpression gitCloneRegex = VerbalExpression.regex()
                                          .startOfLine()
                                          .then("superman")
@@ -25,11 +62,6 @@ public class KeywordBasedCommandTranslation {
                                          .anything()
                                          .build();
 
-    /**
-     * Command input: git clone
-     * https://www.github.com/username/reponame/anythingelse;
-     * input requirement: superman *** clone *** https://www.github.com/repo
-     */
     VerbalExpression gitCloneRepoRegex = VerbalExpression.regex()
                                              .startOfLine()
                                              .then("superman")
@@ -64,10 +96,6 @@ public class KeywordBasedCommandTranslation {
       return result;
     }
 
-    /**
-     * git Add command
-     * git add command group
-     */
     VerbalExpression gitAddRegex = VerbalExpression.regex()
                                        .startOfLine()
                                        .then("superman")
@@ -76,11 +104,6 @@ public class KeywordBasedCommandTranslation {
                                        .anything()
                                        .build();
 
-    /**
-     * Command input: git add --all;
-     * input requirement: superman *** add *** all ***
-     * eg: superman add all change
-     */
     VerbalExpression gitAddAllRegex = VerbalExpression.regex()
                                           .startOfLine()
                                           .then("superman")
@@ -91,11 +114,6 @@ public class KeywordBasedCommandTranslation {
                                           .anything()
                                           .build();
 
-    /**
-     * Command input: git add -i
-     * input requirement: superman *** add *** inteact[ively]***
-     * eg: superman add interactive/ interactively
-     */
     VerbalExpression gitAddInteactivelyRegex = VerbalExpression.regex()
                                                    .startOfLine()
                                                    .then("superman")
@@ -119,10 +137,6 @@ public class KeywordBasedCommandTranslation {
       return result;
     }
 
-    /**
-     * git commit command
-     * git commit command group
-     */
     VerbalExpression gitCommitRegex = VerbalExpression.regex()
                                           .startOfLine()
                                           .then("superman")
@@ -185,6 +199,401 @@ public class KeywordBasedCommandTranslation {
       }
       String result = "git commit;";
       return result;
+    }
+
+    VerbalExpression gitPushRegex = VerbalExpression.regex()
+                                        .startOfLine()
+                                        .then("superman")
+                                        .anything()
+                                        .then("push")
+                                        .anything()
+                                        .build();
+
+    VerbalExpression gitPushSpecificRemoteRegex = VerbalExpression.regex()
+                                                      .startOfLine()
+                                                      .then("superman")
+                                                      .anything()
+                                                      .then("push")
+                                                      .anything()
+                                                      .then("to")
+                                                      .anything()
+                                                      .then("\"")
+                                                      .capture()
+                                                      .anything()
+                                                      .anythingBut("\"")
+                                                      .endCapture()
+                                                      .anything()
+                                                      .build();
+
+    VerbalExpression gitPushSpecificRemoteFromSpecificBranchRegex =
+        VerbalExpression.regex()
+            .startOfLine()
+            .then("superman")
+            .anything()
+            .then("push")
+            .anything()
+            .then("to")
+            .anything()
+            .then("\"")
+            .capture()
+            .anything()
+            .anythingBut("\"")
+            .endCapture()
+            .anything()
+            .then("from")
+            .anything()
+            .then("\"")
+            .capture()
+            .anything()
+            .anythingBut("\"")
+            .endCapture()
+            .anything()
+            .build();
+
+    VerbalExpression
+        gitPushSpecificRemoteFromSpecificBranchAtSpecificRemoteRegex =
+            VerbalExpression.regex()
+                .startOfLine()
+                .then("superman")
+                .anything()
+                .then("push")
+                .anything()
+                .then("to")
+                .anything()
+                .then("\"")
+                .capture()
+                .anything()
+                .anythingBut("\"")
+                .endCapture()
+                .anything()
+                .then("at")
+                .anything()
+                .then("\"")
+                .capture()
+                .anything()
+                .anythingBut("\"")
+                .endCapture()
+                .anything()
+                .then("from")
+                .anything()
+                .then("\"")
+                .capture()
+                .anything()
+                .anythingBut("\"")
+                .endCapture()
+                .anything()
+                .build();
+
+    if (gitPushRegex.testExact(input)) {
+      if (gitPushSpecificRemoteFromSpecificBranchAtSpecificRemoteRegex
+              .testExact(input)) {
+        String remoteMachine =
+            gitPushSpecificRemoteFromSpecificBranchRegex.getText(input, 1);
+        String remoteBranch =
+            gitPushSpecificRemoteFromSpecificBranchRegex.getText(input, 2);
+        String localBranch =
+            gitPushSpecificRemoteFromSpecificBranchRegex.getText(input, 3);
+        String prefix = "git push ";
+        String result =
+            prefix + remoteMachine + localBranch + ":" + remoteBranch + ";";
+        return result;
+      } else if (gitPushSpecificRemoteFromSpecificBranchRegex.testExact(
+                     input)) {
+        String remoteMachine =
+            gitPushSpecificRemoteFromSpecificBranchRegex.getText(input, 1);
+        String localBranch =
+            gitPushSpecificRemoteFromSpecificBranchRegex.getText(input, 2);
+        String prefix = "git push ";
+        String result = prefix + remoteMachine + localBranch + ";";
+        return result;
+      } else if (gitPushSpecificRemoteRegex.testExact(input)) {
+        String remoteMachine =
+            gitPushSpecificRemoteFromSpecificBranchRegex.getText(input, 1);
+        String prefix = "git push ";
+        String result = prefix + remoteMachine + ";";
+        return result;
+      }
+      String result = "git push ";
+      return result;
+    }
+
+    VerbalExpression gitPullRegex = VerbalExpression.regex()
+                                        .startOfLine()
+                                        .then("superman")
+                                        .anything()
+                                        .then("pull")
+                                        .anything()
+                                        .build();
+
+    VerbalExpression gitPullSpecificRemoteRegex = VerbalExpression.regex()
+                                                      .startOfLine()
+                                                      .then("superman")
+                                                      .anything()
+                                                      .then("pull")
+                                                      .anything()
+                                                      .then("from")
+                                                      .anything()
+                                                      .then("\"")
+                                                      .capture()
+                                                      .anything()
+                                                      .anythingBut("\"")
+                                                      .endCapture()
+                                                      .anything()
+                                                      .build();
+
+    VerbalExpression gitPullSpecificRemoteFromSpecificBranchRegex =
+        VerbalExpression.regex()
+            .startOfLine()
+            .then("superman")
+            .anything()
+            .then("pull")
+            .anything()
+            .then("from")
+            .anything()
+            .then("\"")
+            .capture()
+            .anything()
+            .anythingBut("\"")
+            .endCapture()
+            .anything()
+            .then("at")
+            .anything()
+            .then("\"")
+            .capture()
+            .anything()
+            .anythingBut("\"")
+            .endCapture()
+            .anything()
+            .build();
+
+    VerbalExpression
+        gitPullSpecificRemoteFromSpecificBranchToSpecificLocalBranchRemoteRegex =
+            VerbalExpression.regex()
+                .startOfLine()
+                .then("superman")
+                .anything()
+                .then("pull")
+                .anything()
+                .then("from")
+                .anything()
+                .then("\"")
+                .capture()
+                .anything()
+                .anythingBut("\"")
+                .endCapture()
+                .anything()
+                .then("at")
+                .anything()
+                .then("\"")
+                .capture()
+                .anything()
+                .anythingBut("\"")
+                .endCapture()
+                .anything()
+                .then("to")
+                .anything()
+                .then("\"")
+                .capture()
+                .anything()
+                .anythingBut("\"")
+                .endCapture()
+                .anything()
+                .build();
+
+    if (gitPullRegex.testExact(input)) {
+      if (gitPullSpecificRemoteFromSpecificBranchToSpecificLocalBranchRemoteRegex
+              .testExact(input)) {
+        String remoteMachine =
+            gitPullSpecificRemoteFromSpecificBranchToSpecificLocalBranchRemoteRegex
+                .getText(input, 1);
+        String remoteBranch =
+            gitPullSpecificRemoteFromSpecificBranchToSpecificLocalBranchRemoteRegex
+                .getText(input, 2);
+        String localBranch =
+            gitPullSpecificRemoteFromSpecificBranchToSpecificLocalBranchRemoteRegex
+                .getText(input, 3);
+        String prefix = "git pull ";
+        String result =
+            prefix + remoteMachine + remoteBranch + ":" + localBranch + ";";
+        return result;
+      } else if (gitPullSpecificRemoteFromSpecificBranchRegex.testExact(
+                     input)) {
+        String remoteMachine =
+            gitPullSpecificRemoteFromSpecificBranchRegex.getText(input, 1);
+        String remoteBranch =
+            gitPullSpecificRemoteFromSpecificBranchRegex.getText(input, 2);
+        String prefix = "git pull ";
+        String result = prefix + remoteMachine + remoteBranch + ";";
+        return result;
+      } else if (gitPullSpecificRemoteRegex.testExact(input)) {
+        String remoteMachine =
+            gitPushSpecificRemoteFromSpecificBranchRegex.getText(input, 1);
+        String prefix = "git pull ";
+        String result = prefix + remoteMachine + ";";
+        return result;
+      }
+      String result = "git pull";
+      return result;
+    }
+
+    VerbalExpression gitBranchRegex = VerbalExpression.regex()
+                                          .startOfLine()
+                                          .then("superman")
+                                          .anything()
+                                          .then("branch")
+                                          .anything()
+                                          .build();
+
+    VerbalExpression gitRemoteBranchRegex = VerbalExpression.regex()
+                                                .startOfLine()
+                                                .then("superman")
+                                                .anything()
+                                                .then("remote")
+                                                .anything()
+                                                .then("branch")
+                                                .anything()
+                                                .build();
+
+    VerbalExpression gitRemoteBranchReversedRegex = VerbalExpression.regex()
+                                                        .startOfLine()
+                                                        .then("superman")
+                                                        .anything()
+                                                        .then("branch")
+                                                        .anything()
+                                                        .then("remote")
+                                                        .anything()
+                                                        .build();
+
+    VerbalExpression gitBranchMergedRegex = VerbalExpression.regex()
+                                                .startOfLine()
+                                                .then("superman")
+                                                .anything()
+                                                .then("branch")
+                                                .anything()
+                                                .then("merged")
+                                                .anything()
+                                                .build();
+
+    VerbalExpression gitBranchMergedReversedRegex = VerbalExpression.regex()
+                                                        .startOfLine()
+                                                        .then("superman")
+                                                        .anything()
+                                                        .then("merged")
+                                                        .anything()
+                                                        .then("branch")
+                                                        .anything()
+                                                        .build();
+
+    VerbalExpression gitBranchNotMergedRegex = VerbalExpression.regex()
+                                                   .startOfLine()
+                                                   .then("superman")
+                                                   .anything()
+                                                   .then("branch")
+                                                   .anything()
+                                                   .then("not merged")
+                                                   .anything()
+                                                   .build();
+
+    VerbalExpression gitBranchNotMergedReversedRegex = VerbalExpression.regex()
+                                                           .startOfLine()
+                                                           .then("superman")
+                                                           .anything()
+                                                           .then("not merged")
+                                                           .anything()
+                                                           .then("branch")
+                                                           .anything()
+                                                           .build();
+
+    if (gitBranchRegex.testExact(input)) {
+      if (gitRemoteBranchRegex.testExact(input)) {
+        String result = "git branch -r;";
+        return result;
+      } else if (gitRemoteBranchReversedRegex.testExact(input)) {
+        String result = "git branch -r;";
+        return result;
+      } else if (gitBranchMergedRegex.testExact(input)) {
+        String result = "git branch --merged;";
+        return result;
+      } else if (gitBranchMergedReversedRegex.testExact(input)) {
+        String result = "git branch --merged;";
+        return result;
+      } else if (gitBranchNotMergedRegex.testExact(input)) {
+        String result = "git branch --no-merged;";
+        return result;
+      } else if (gitBranchNotMergedReversedRegex.testExact(input)) {
+        String result = "git branch --no-merged;";
+        return result;
+      }
+      String result = "git commit;";
+      return result;
+    }
+
+    VerbalExpression gitRemoteRegex = VerbalExpression.regex()
+                                          .startOfLine()
+                                          .then("superman")
+                                          .anything()
+                                          .then("remote")
+                                          .maybe("track")
+                                          .anything()
+                                          .build();
+
+    if (gitRemoteRegex.testExact(input)) {
+      String result = "git remote -v";
+      return result;
+    }
+
+    VerbalExpression gitLogRegex = VerbalExpression.regex()
+                                       .startOfLine()
+                                       .then("superman")
+                                       .anything()
+                                       .then("log")
+                                       .anything()
+                                       .build();
+
+    VerbalExpression gitLogGraphRegex = VerbalExpression.regex()
+                                            .startOfLine()
+                                            .then("superman")
+                                            .anything()
+                                            .then("log")
+                                            .anything()
+                                            .then("graph")
+                                            .anything()
+                                            .build();
+
+    VerbalExpression gitLogPrettyRegex = VerbalExpression.regex()
+                                             .startOfLine()
+                                             .then("superman")
+                                             .anything()
+                                             .then("log")
+                                             .anything()
+                                             .then("pretty")
+                                             .anything()
+                                             .build();
+
+    VerbalExpression gitLogPrettyReversedRegex = VerbalExpression.regex()
+                                                     .startOfLine()
+                                                     .then("superman")
+                                                     .anything()
+                                                     .then("pretty")
+                                                     .anything()
+                                                     .then("log")
+                                                     .anything()
+                                                     .build();
+
+    if (gitLogRegex.testExact(input)) {
+      if (gitLogGraphRegex.testExact(input)) {
+        String result = "git log --graph";
+        return result;
+      } else if (gitLogPrettyRegex.testExact(input)) {
+        String result =
+            "git log --pretty=format:'%C(yellow)%h%Creset%C(green)%d%Creset %ad %s %Cred(%an)%Creset' --date=short --decorate --graph";
+        return result;
+      } else if (gitLogPrettyReversedRegex.testExact(input)) {
+
+        String result =
+            "git log --pretty=format:'%C(yellow)%h%Creset%C(green)%d%Creset %ad %s %Cred(%an)%Creset' --date=short --decorate --graph";
+        return result;
+      }
     }
 
     String result = "unknown command;";
