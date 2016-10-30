@@ -4,7 +4,7 @@
 
 public class KeywordBasedCommandTranslation {
   public static String nlpToCommand(String input) {
-    VerbalExpression gitCreate = VerbalExpression.regex()
+    ElasticRegularExpression gitCreate = ElasticRegularExpression.regex()
                                      .startOfLine()
                                      .then("superman")
                                      .anything()
@@ -17,7 +17,7 @@ public class KeywordBasedCommandTranslation {
       return result;
     }
 
-    VerbalExpression gitRemoteAdding = VerbalExpression.regex()
+    ElasticRegularExpression gitRemoteAdding = ElasticRegularExpression.regex()
                                            .startOfLine()
                                            .then("superman")
                                            .anything()
@@ -54,7 +54,7 @@ public class KeywordBasedCommandTranslation {
       return result;
     }
 
-    VerbalExpression gitCloneRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitCloneRegex = ElasticRegularExpression.regex()
                                          .startOfLine()
                                          .then("superman")
                                          .anything()
@@ -62,7 +62,7 @@ public class KeywordBasedCommandTranslation {
                                          .anything()
                                          .build();
 
-    VerbalExpression gitCloneRepoRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitCloneRepoRegex = ElasticRegularExpression.regex()
                                              .startOfLine()
                                              .then("superman")
                                              .anything()
@@ -96,7 +96,7 @@ public class KeywordBasedCommandTranslation {
       return result;
     }
 
-    VerbalExpression gitAddRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitAddRegex = ElasticRegularExpression.regex()
                                        .startOfLine()
                                        .then("superman")
                                        .anything()
@@ -104,7 +104,7 @@ public class KeywordBasedCommandTranslation {
                                        .anything()
                                        .build();
 
-    VerbalExpression gitAddAllRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitAddAllRegex = ElasticRegularExpression.regex()
                                           .startOfLine()
                                           .then("superman")
                                           .anything()
@@ -114,7 +114,7 @@ public class KeywordBasedCommandTranslation {
                                           .anything()
                                           .build();
 
-    VerbalExpression gitAddInteactivelyRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitAddInteactivelyRegex = ElasticRegularExpression.regex()
                                                    .startOfLine()
                                                    .then("superman")
                                                    .anything()
@@ -137,7 +137,7 @@ public class KeywordBasedCommandTranslation {
       return result;
     }
 
-    VerbalExpression gitCommitRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitCommitRegex = ElasticRegularExpression.regex()
                                           .startOfLine()
                                           .then("superman")
                                           .anything()
@@ -145,7 +145,7 @@ public class KeywordBasedCommandTranslation {
                                           .anything()
                                           .build();
 
-    VerbalExpression gitCommitWithMessageRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitCommitWithMessageRegex = ElasticRegularExpression.regex()
                                                      .startOfLine()
                                                      .then("superman")
                                                      .anything()
@@ -162,7 +162,7 @@ public class KeywordBasedCommandTranslation {
                                                      .anything()
                                                      .build();
 
-    VerbalExpression gitCommitAmendRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitCommitAmendRegex = ElasticRegularExpression.regex()
                                                .startOfLine()
                                                .then("superman")
                                                .anything()
@@ -172,8 +172,8 @@ public class KeywordBasedCommandTranslation {
                                                .anything()
                                                .build();
 
-    VerbalExpression gitCommitAmendSequenceReversedRegex =
-        VerbalExpression.regex()
+    ElasticRegularExpression gitCommitAmendSequenceReversedRegex =
+        ElasticRegularExpression.regex()
             .startOfLine()
             .then("superman")
             .anything()
@@ -201,7 +201,7 @@ public class KeywordBasedCommandTranslation {
       return result;
     }
 
-    VerbalExpression gitPushRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitPushRegex = ElasticRegularExpression.regex()
                                         .startOfLine()
                                         .then("superman")
                                         .anything()
@@ -209,7 +209,7 @@ public class KeywordBasedCommandTranslation {
                                         .anything()
                                         .build();
 
-    VerbalExpression gitPushSpecificRemoteRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitPushSpecificRemoteRegex = ElasticRegularExpression.regex()
                                                       .startOfLine()
                                                       .then("superman")
                                                       .anything()
@@ -225,8 +225,8 @@ public class KeywordBasedCommandTranslation {
                                                       .anything()
                                                       .build();
 
-    VerbalExpression gitPushSpecificRemoteFromSpecificBranchRegex =
-        VerbalExpression.regex()
+    ElasticRegularExpression gitPushSpecificRemoteFromSpecificBranchRegex =
+        ElasticRegularExpression.regex()
             .startOfLine()
             .then("superman")
             .anything()
@@ -250,9 +250,9 @@ public class KeywordBasedCommandTranslation {
             .anything()
             .build();
 
-    VerbalExpression
+    ElasticRegularExpression
         gitPushSpecificRemoteFromSpecificBranchAtSpecificRemoteRegex =
-            VerbalExpression.regex()
+            ElasticRegularExpression.regex()
                 .startOfLine()
                 .then("superman")
                 .anything()
@@ -317,7 +317,7 @@ public class KeywordBasedCommandTranslation {
       return result;
     }
 
-    VerbalExpression gitPullRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitPullRegex = ElasticRegularExpression.regex()
                                         .startOfLine()
                                         .then("superman")
                                         .anything()
@@ -325,7 +325,7 @@ public class KeywordBasedCommandTranslation {
                                         .anything()
                                         .build();
 
-    VerbalExpression gitPullSpecificRemoteRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitPullSpecificRemoteRegex = ElasticRegularExpression.regex()
                                                       .startOfLine()
                                                       .then("superman")
                                                       .anything()
@@ -341,8 +341,8 @@ public class KeywordBasedCommandTranslation {
                                                       .anything()
                                                       .build();
 
-    VerbalExpression gitPullSpecificRemoteFromSpecificBranchRegex =
-        VerbalExpression.regex()
+    ElasticRegularExpression gitPullSpecificRemoteFromSpecificBranchRegex =
+        ElasticRegularExpression.regex()
             .startOfLine()
             .then("superman")
             .anything()
@@ -366,9 +366,9 @@ public class KeywordBasedCommandTranslation {
             .anything()
             .build();
 
-    VerbalExpression
+    ElasticRegularExpression
         gitPullSpecificRemoteFromSpecificBranchToSpecificLocalBranchRemoteRegex =
-            VerbalExpression.regex()
+            ElasticRegularExpression.regex()
                 .startOfLine()
                 .then("superman")
                 .anything()
@@ -436,7 +436,7 @@ public class KeywordBasedCommandTranslation {
       return result;
     }
 
-    VerbalExpression gitBranchRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitBranchRegex = ElasticRegularExpression.regex()
                                           .startOfLine()
                                           .then("superman")
                                           .anything()
@@ -444,7 +444,7 @@ public class KeywordBasedCommandTranslation {
                                           .anything()
                                           .build();
 
-    VerbalExpression gitRemoteBranchRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitRemoteBranchRegex = ElasticRegularExpression.regex()
                                                 .startOfLine()
                                                 .then("superman")
                                                 .anything()
@@ -454,7 +454,7 @@ public class KeywordBasedCommandTranslation {
                                                 .anything()
                                                 .build();
 
-    VerbalExpression gitRemoteBranchReversedRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitRemoteBranchReversedRegex = ElasticRegularExpression.regex()
                                                         .startOfLine()
                                                         .then("superman")
                                                         .anything()
@@ -464,7 +464,7 @@ public class KeywordBasedCommandTranslation {
                                                         .anything()
                                                         .build();
 
-    VerbalExpression gitBranchMergedRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitBranchMergedRegex = ElasticRegularExpression.regex()
                                                 .startOfLine()
                                                 .then("superman")
                                                 .anything()
@@ -474,7 +474,7 @@ public class KeywordBasedCommandTranslation {
                                                 .anything()
                                                 .build();
 
-    VerbalExpression gitBranchMergedReversedRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitBranchMergedReversedRegex = ElasticRegularExpression.regex()
                                                         .startOfLine()
                                                         .then("superman")
                                                         .anything()
@@ -484,7 +484,7 @@ public class KeywordBasedCommandTranslation {
                                                         .anything()
                                                         .build();
 
-    VerbalExpression gitBranchNotMergedRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitBranchNotMergedRegex = ElasticRegularExpression.regex()
                                                    .startOfLine()
                                                    .then("superman")
                                                    .anything()
@@ -494,7 +494,7 @@ public class KeywordBasedCommandTranslation {
                                                    .anything()
                                                    .build();
 
-    VerbalExpression gitBranchNotMergedReversedRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitBranchNotMergedReversedRegex = ElasticRegularExpression.regex()
                                                            .startOfLine()
                                                            .then("superman")
                                                            .anything()
@@ -528,7 +528,7 @@ public class KeywordBasedCommandTranslation {
       return result;
     }
 
-    VerbalExpression gitRemoteRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitRemoteRegex = ElasticRegularExpression.regex()
                                           .startOfLine()
                                           .then("superman")
                                           .anything()
@@ -542,7 +542,7 @@ public class KeywordBasedCommandTranslation {
       return result;
     }
 
-    VerbalExpression gitLogRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitLogRegex = ElasticRegularExpression.regex()
                                        .startOfLine()
                                        .then("superman")
                                        .anything()
@@ -550,7 +550,7 @@ public class KeywordBasedCommandTranslation {
                                        .anything()
                                        .build();
 
-    VerbalExpression gitLogGraphRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitLogGraphRegex = ElasticRegularExpression.regex()
                                             .startOfLine()
                                             .then("superman")
                                             .anything()
@@ -560,7 +560,7 @@ public class KeywordBasedCommandTranslation {
                                             .anything()
                                             .build();
 
-    VerbalExpression gitLogPrettyRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitLogPrettyRegex = ElasticRegularExpression.regex()
                                              .startOfLine()
                                              .then("superman")
                                              .anything()
@@ -570,7 +570,7 @@ public class KeywordBasedCommandTranslation {
                                              .anything()
                                              .build();
 
-    VerbalExpression gitLogPrettyReversedRegex = VerbalExpression.regex()
+    ElasticRegularExpression gitLogPrettyReversedRegex = ElasticRegularExpression.regex()
                                                      .startOfLine()
                                                      .then("superman")
                                                      .anything()
