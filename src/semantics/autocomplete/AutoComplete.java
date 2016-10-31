@@ -78,12 +78,14 @@ public class AutoComplete {
 		for (String token : tokens) {
 			SortedSet<ScoredObject<String>> completions = completer.complete(token);
 			if (!completions.isEmpty()) {
+				// Get the first object.
+				ScoredObject<String> firstCompletion = completions.iterator().next();
 				hint.append(
-						"By '" + token + "', " + " Do you mean '" + completions.iterator().next().getObject() + "'?");
+						"By '" + token + "', " + " Do you mean '" + firstCompletion.getObject() + "'?");
 				hint.append('\n');
 			}
 		}
-		if (hint.length() == 0) throw new NoTokenFoundException();
+		if (hint.length() == 0) return "#" + incompleteCommand;
 		return hint.toString();
 	}
 

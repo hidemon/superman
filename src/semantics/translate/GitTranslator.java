@@ -26,7 +26,7 @@ public class GitTranslator {
 		Chunking chunking = chunker.chunk(input);
 		Set<Chunk> chunkSet = chunking.chunkSet();
 		if (chunkSet.size() == 0) {
-			throw new NoTokenFoundException();
+			return "git diff";
 		}
 		if (chunkSet.size() != 2) {
 			throw new InvalidParameterException();
@@ -97,5 +97,18 @@ public class GitTranslator {
 		StringBuilder result = new StringBuilder("git rm ");
 		result.append(input.substring(urlChunk.start(), urlChunk.end()));
 		return result.toString();
+	}
+	
+	public static String translateCommit(String input) throws NoTokenFoundException {
+		String comment = "new commit";
+		int commentS = input.indexOf('"');
+		if (commentS != -1) {
+			 input = input.substring(commentS);
+			 int commentE = input.indexOf('"');
+			 if (commentE != -1) {
+				 comment = input.substring(0, commentE + 1);
+			 }
+		}
+		return "git commit -m " + "\"" + comment + "\"";
 	}
 }

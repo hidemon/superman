@@ -49,6 +49,8 @@ public class NLTranslator {
 			return GitTranslator.translateRm(input);
 		case "mv":
 			return GitTranslator.translateMv(input);
+		case "commit":
+			return GitTranslator.translateCommit(input);
 		case "compile":
 			return CompilationTranslator.translateCompile(input);
 		case "run":
@@ -76,13 +78,16 @@ public class NLTranslator {
 			command = "superman run helloworld.c";
 			System.out.println(translator.translate(command));
 			
-			command = "superman ru helloworld.c";
+			command = "superman runnn helloworld.c";
 			System.out.println(translator.translate(command));
 			
 			command = "superman please delete helloworld.c";
 			System.out.println(translator.translate(command));
 			
 			command = "superman please move helloworld.c D:/good.c";
+			System.out.println(translator.translate(command));
+			
+			command = "make commission";
 			System.out.println(translator.translate(command));
 			
 		} catch (NoTokenFoundException | InvalidParameterException e) {
