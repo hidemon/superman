@@ -7,6 +7,7 @@ import com.aliasi.chunk.Chunk;
 import com.aliasi.chunk.Chunker;
 import com.aliasi.chunk.Chunking;
 
+import semantics.chunker.BranchRegExChunker;
 import semantics.chunker.FilenameRegExChunker;
 import semantics.chunker.SHARegExChunker;
 import semantics.chunker.UrlRegExChunker;
@@ -100,6 +101,7 @@ public class GitTranslator {
 	}
 	
 	public static String translateCommit(String input) throws NoTokenFoundException {
+		// Default comment
 		String comment = "new commit";
 		int commentS = input.indexOf('"');
 		if (commentS != -1) {
@@ -110,5 +112,25 @@ public class GitTranslator {
 			 }
 		}
 		return "git commit -m " + "\"" + comment + "\"";
+	}
+
+	// Have to use a '#' as a prefix of branch name
+	public static String translateMerge(String input) throws NoTokenFoundException {
+		Chunker chunker = new BranchRegExChunker();
+		Chunking chunking = chunker.chunk(input);
+		Set<Chunk> chunkSet = chunking.chunkSet();
+		if (chunkSet.size() == 0) {
+			throw new NoTokenFoundException();
+		}
+		StringBuilder result = new StringBuilder("git merge");
+		
+		Iterator<Chunk> it = chunkSet.iterator();
+		while (it.hasNext()) {
+			Chunk chunk = it.next();
+			int start = chunk.start();
+			int end = chunk.end();
+			result.append(' ').append(input.substring(start, end));
+		}
+		return result.toString();
 	}
 }

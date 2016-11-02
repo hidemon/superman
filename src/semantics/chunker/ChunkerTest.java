@@ -70,7 +70,6 @@ public class ChunkerTest {
             int start = chunk.start();
             int end = chunk.end();
             String result = s.substring(start,end);
-            System.out.println(result);
             assertEquals(result, expectedResult[i++]);
         }
 	}
@@ -87,5 +86,24 @@ public class ChunkerTest {
             String expectedType = "diff";
             assertEquals(type, expectedType);	        
 	    }
+	}
+	
+	@Test
+	public void BranchRegExTest() {
+		Chunker chunker = new BranchRegExChunker();
+		String s = "superman merge #abc #xyz";
+		String[] expectedResult = {"#abc", "#xyz"};
+		int i = 0;
+        Chunking chunking = chunker.chunk(s);
+        Set<Chunk> chunkSet = chunking.chunkSet();
+        assertTrue(chunking.chunkSet().size() > 0);
+        Iterator<Chunk> it = chunkSet.iterator();
+        while (it.hasNext()) {
+            Chunk chunk = it.next();
+            int start = chunk.start();
+            int end = chunk.end();
+            String result = s.substring(start,end);
+            assertEquals(result, expectedResult[i++]);
+        }
 	}
 }

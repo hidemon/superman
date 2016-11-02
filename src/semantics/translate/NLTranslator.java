@@ -51,6 +51,8 @@ public class NLTranslator {
 			return GitTranslator.translateMv(input);
 		case "commit":
 			return GitTranslator.translateCommit(input);
+		case "merge":
+			return GitTranslator.translateMerge(input);
 		case "compile":
 			return CompilationTranslator.translateCompile(input);
 		case "run":
@@ -88,6 +90,9 @@ public class NLTranslator {
 			System.out.println(translator.translate(command));
 			
 			command = "make commission";
+			System.out.println(translator.translate(command));
+			
+			command = "superman please merge #abc and #xyz";
 			System.out.println(translator.translate(command));
 			
 		} catch (NoTokenFoundException | InvalidParameterException e) {
