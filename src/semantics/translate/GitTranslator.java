@@ -22,6 +22,8 @@ import semantics.exception.NoTokenFoundException;
  */
 public class GitTranslator {
 
+	final static String[] strategies = {"resolve", "recursive", "ours", "octopus", "subtree"};
+	
 	public static String translateDiff(String input) throws InvalidParameterException, NoTokenFoundException {
 		Chunker chunker = new SHARegExChunker();
 		Chunking chunking = chunker.chunk(input);
@@ -123,7 +125,12 @@ public class GitTranslator {
 			throw new NoTokenFoundException();
 		}
 		StringBuilder result = new StringBuilder("git merge");
-		
+		// Use simple scan to find the stratege
+		for (String stratege : strategies) {
+			if (input.indexOf(stratege) != -1) {
+				result.append(" -s " + stratege);
+			}
+		}
 		Iterator<Chunk> it = chunkSet.iterator();
 		while (it.hasNext()) {
 			Chunk chunk = it.next();
@@ -131,6 +138,22 @@ public class GitTranslator {
 			int end = chunk.end();
 			result.append(' ').append(input.substring(start, end));
 		}
+		return result.toString();
+	}
+
+	public static String translateReset(String input) throws NoTokenFoundException, InvalidParameterException {
+		Chunker chunker = new SHARegExChunker();
+		Chunking chunking = chunker.chunk(input);
+		Set<Chunk> chunkSet = chunking.chunkSet();
+		if (chunkSet.size() == 0) {
+			throw new NoTokenFoundException();
+		}
+		if (chunkSet.size() != 1) {
+			throw new InvalidParameterException();
+		}
+		Chunk urlChunk = chunkSet.iterator().next();
+		StringBuilder result = new StringBuilder("git reset --hard ");
+		result.append(input.substring(urlChunk.start(), urlChunk.end()));
 		return result.toString();
 	}
 }

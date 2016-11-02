@@ -48,6 +48,8 @@ public class SemanticsMap {
 		
 		dictionary.addEntry(new DictionaryEntry<String>("merge", "merge", CHUNK_SCORE));
 		
+		dictionary.addEntry(new DictionaryEntry<String>("reset", "reset", CHUNK_SCORE));
+		
 		dictionary.addEntry(new DictionaryEntry<String>("mv", "mv", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("move", "mv", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("transfer", "mv", CHUNK_SCORE));
