@@ -45,6 +45,8 @@ public class NLTranslator {
 			return GitTranslator.translateClone(input);
 		case "pull":
 			return GitTranslator.translatePull(input);
+		case "fetch":
+			return GitTranslator.translateFetch(input);
 		case "rm":
 			return GitTranslator.translateRm(input);
 		case "mv":
@@ -98,6 +100,9 @@ public class NLTranslator {
 			System.out.println(translator.translate(command));
 			
 			command = "superman please reset 532eac";
+			System.out.println(translator.translate(command));
+			
+			command = "superman fetch #origin";
 			System.out.println(translator.translate(command));
 			
 		} catch (NoTokenFoundException | InvalidParameterException e) {

@@ -82,10 +82,43 @@ public class GitTranslator {
 		return result.toString();
 	}
 
-	public static String translatePull(String input) {
-		return "git pull";
+	public static String translatePull(String input) throws InvalidParameterException {
+		Chunker chunker = new BranchRegExChunker();
+		Chunking chunking = chunker.chunk(input);
+		Set<Chunk> chunkSet = chunking.chunkSet();
+		StringBuilder result = new StringBuilder("git pull");
+		if (chunkSet.size() == 0) {
+			return result.toString();
+		}
+		if (chunkSet.size() != 2) {
+			throw new InvalidParameterException();
+		}
+		Iterator<Chunk> it = chunkSet.iterator();
+		while (it.hasNext()) {
+			Chunk chunk = it.next();
+			int start = chunk.start();
+			int end = chunk.end();
+			result.append(' ').append(input.substring(start + 1, end));
+		}
+		return result.toString();
 	}
 
+	public static String translateFetch(String input) throws InvalidParameterException {
+		Chunker chunker = new BranchRegExChunker();
+		Chunking chunking = chunker.chunk(input);
+		Set<Chunk> chunkSet = chunking.chunkSet();
+		StringBuilder result = new StringBuilder("git fetch");
+		if (chunkSet.size() == 0) {
+			return result.toString();
+		}
+		if (chunkSet.size() != 1) {
+			throw new InvalidParameterException();
+		}
+		Chunk urlChunk = chunkSet.iterator().next();
+		result.append(' ').append(input.substring(urlChunk.start() + 1, urlChunk.end()));
+		return result.toString();
+	}
+	
 	public static String translateRm(String input) throws NoTokenFoundException, InvalidParameterException {
 		Chunker chunker = new FilenameRegExChunker();
 		Chunking chunking = chunker.chunk(input);
@@ -136,7 +169,7 @@ public class GitTranslator {
 			Chunk chunk = it.next();
 			int start = chunk.start();
 			int end = chunk.end();
-			result.append(' ').append(input.substring(start, end));
+			result.append(' ').append(input.substring(start + 1, end));
 		}
 		return result.toString();
 	}
