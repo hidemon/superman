@@ -1,0 +1,20 @@
+#!/usr/local/bin/python
+
+/**
+ * Created by lijingjiang on 11/13/16 13:29 PM.
+ */
+
+import sys
+
+if sys.argv[1] == '0':
+    print "git init"
+if sys.argv[1] == '1':
+    print "git add --all"
+if sys.argv[1] == '2':
+    print "git commit -m \"adding\""
+if sys.argv[1] == '3':
+    print "git push origin master"
+if sys.argv[1] == '4':
+    print "git status"
+if sys.argv[1] == '5':
+    print >> sys.stderr, 'cannot process';

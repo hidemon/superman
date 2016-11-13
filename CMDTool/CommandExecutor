@@ -1,0 +1,50 @@
+#!/usr/local/bin/node
+
+
+/**
+ * Created by lijingjiang on 11/13/16 13:27 PM.
+ */
+
+/**
+ * command executor, supported by multiple language
+ */
+var spawn = require('child_process').spawn;
+
+/**
+ * example command string
+ */
+var commandString = "ls -a -l";
+
+/**
+ * get all commands components
+ */
+var commandComponent = commandString.split(" ");
+
+/**
+ * extract the command
+ */
+var commandType = commandComponent.shift();
+
+/**
+ * remove unnecessary character
+ */
+for (i = 0; i < commandComponent.length; i++) {
+    commandComponent[i] = commandComponent[i].replace(/[\r\n]/g, '');
+}
+
+var executionResult = spawn(commandType, commandComponent);
+
+/**
+ * print the command execution result to stdout
+ */
+executionResult.stdout.on('data', function(data) {
+    console.log(`${data}`);
+});
+
+
+/**
+ * print the command execution result to stderr
+ */
+executionResult.stderr.on('data', function(data) {
+    console.log(`${data}`);
+});
