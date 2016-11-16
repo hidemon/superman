@@ -75,34 +75,37 @@ public class NLTranslator {
 		try {
 			System.out.println(translator.translate(command));
 
-			command = "superman clone the repo git://www.github.haha.git";
+			command = "nlp clone the repo git://www.github.haha.git";
 			System.out.println(translator.translate(command));
 
-			command = "superman run helloworld.java";
+			command = "nlp run helloworld.java";
 			System.out.println(translator.translate(command));
 
-			command = "superman run helloworld.c";
+			command = "nlp run helloworld.c";
 			System.out.println(translator.translate(command));
 			
-			command = "superman runnn helloworld.c";
+			command = "nlp runnn helloworld.c";
 			System.out.println(translator.translate(command));
 			
-			command = "superman please delete helloworld.c";
+			command = "nlp please delete helloworld.c";
 			System.out.println(translator.translate(command));
 			
-			command = "superman please move helloworld.c D:/good.c";
+			command = "nlp please move helloworld.c D:/good.c";
 			System.out.println(translator.translate(command));
 			
-			command = "make commission";
+			command = "nlp make commission";
 			System.out.println(translator.translate(command));
 			
-			command = "superman please merge #abc and #xyz using stratege ours";
+			command = "nlp please merge #abc and #xyz using stratege ours";
 			System.out.println(translator.translate(command));
 			
-			command = "superman please reset 532eac";
+			command = "nlp please reset 532eac";
 			System.out.println(translator.translate(command));
 			
-			command = "superman fetch #origin";
+			command = "nlp fetch #origin branch";
+			System.out.println(translator.translate(command));
+			
+			command = "nlp what is going on?";
 			System.out.println(translator.translate(command));
 			
 		} catch (NoTokenFoundException | InvalidParameterException e) {
