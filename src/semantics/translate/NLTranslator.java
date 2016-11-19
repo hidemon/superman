@@ -1,5 +1,6 @@
 package semantics.translate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import semantics.autocomplete.AutoComplete;
 import semantics.chunker.SemanticsMap;
 import semantics.exception.InvalidParameterException;
 import semantics.exception.NoTokenFoundException;
+import semantics.train.TokenizedLMClassifier;
 
 /**
  * The core class which is responsible for translating natural language to
@@ -21,10 +23,17 @@ import semantics.exception.NoTokenFoundException;
 public class NLTranslator {
 	private SemanticsMap semanticsMap;
 	private AutoComplete autoCompleter;
+	private TokenizedLMClassifier classifier;
 
 	public NLTranslator(String... args) {
 		semanticsMap = new SemanticsMap(args);
-		autoCompleter = new AutoComplete("command.csv");
+		try {
+			autoCompleter = new AutoComplete("command.csv");
+			classifier = new TokenizedLMClassifier();
+			classifier.train("data/command_train.csv");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String translate(String input) throws NoTokenFoundException, InvalidParameterException {
@@ -35,10 +44,16 @@ public class NLTranslator {
 		for (Chunk chunk : chunking.chunkSet()) {
 			tokens.add(chunk.type());
 		}
+		String commandCore = "";
 		if (tokens.size() == 0) {
-			return autoCompleter.autoComplete(input);
+			commandCore = classifier.classify(input);
+			if (commandCore.isEmpty()) {
+				return autoCompleter.autoComplete(input);
+			}
+		} else {
+			commandCore = tokens.get(0);	
 		}
-		switch (tokens.get(0)) {
+		switch (commandCore) {
 		case "diff":
 			return GitTranslator.translateDiff(input);
 		case "clone":
@@ -61,7 +76,9 @@ public class NLTranslator {
 			return CompilationTranslator.translateCompile(input);
 		case "run":
 			return CompilationTranslator.translateRun(input);
-
+		// test classifier
+		case "test":
+			return "Classify Test!";
 		default:
 			return "Cannot recognize the command!";
 		}
@@ -75,34 +92,37 @@ public class NLTranslator {
 		try {
 			System.out.println(translator.translate(command));
 
-			command = "superman clone the repo git://www.github.haha.git";
+			command = "nlp clone the repo git://www.github.haha.git";
 			System.out.println(translator.translate(command));
 
-			command = "superman run helloworld.java";
+			command = "nlp run helloworld.java";
 			System.out.println(translator.translate(command));
 
-			command = "superman run helloworld.c";
+			command = "nlp run helloworld.c";
 			System.out.println(translator.translate(command));
 			
-			command = "superman runnn helloworld.c";
+			command = "nlp runnn helloworld.c";
 			System.out.println(translator.translate(command));
 			
-			command = "superman please delete helloworld.c";
+			command = "nlp please delete helloworld.c";
 			System.out.println(translator.translate(command));
 			
-			command = "superman please move helloworld.c D:/good.c";
+			command = "nlp please move helloworld.c D:/good.c";
 			System.out.println(translator.translate(command));
 			
-			command = "make commission";
+			command = "nlp make commission";
 			System.out.println(translator.translate(command));
 			
-			command = "superman please merge #abc and #xyz using stratege ours";
+			command = "nlp please merge #abc and #xyz using stratege ours";
 			System.out.println(translator.translate(command));
 			
-			command = "superman please reset 532eac";
+			command = "nlp please reset 532eac";
 			System.out.println(translator.translate(command));
 			
-			command = "superman fetch #origin";
+			command = "nlp fetch #origin branch";
+			System.out.println(translator.translate(command));
+			
+			command = "nlp test is going on?";
 			System.out.println(translator.translate(command));
 			
 		} catch (NoTokenFoundException | InvalidParameterException e) {
