@@ -14,15 +14,14 @@ public class CommandLine {
     public static void main(String[] args) {
         NLTranslator translator = new NLTranslator("git", "compile");
         Scanner scanner = new Scanner(System.in);
-        String command;
+        String command = null;
         while (true) {
             System.out.print("Please input the command line: ");
-//            try {
-//                command = translator.translate(scanner.nextLine());
-            command = scanner.nextLine();
-//            }  catch (NoTokenFoundException | InvalidParameterException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                command = translator.translate(scanner.nextLine());
+            }  catch (NoTokenFoundException | InvalidParameterException e) {
+                e.printStackTrace();
+            }
             System.out.println(String.format("Please tell me whether you want to execute: %s", command));
 
             System.out.println("If yes, please enter 1. If no, please enter 0: ");
