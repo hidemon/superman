@@ -52,7 +52,7 @@ public class CommandLine {
                 for (i = 0; i < first.length; i++) {
                     run[i] = first[i];
                 }
-                run[i + 1] = commands[1];
+                run[i] = commands[1];
                 pr = rt.exec(run);
             } else {
                 pr = rt.exec(line);
