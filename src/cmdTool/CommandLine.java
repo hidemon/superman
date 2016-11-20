@@ -16,11 +16,17 @@ public class CommandLine {
         Scanner scanner = new Scanner(System.in);
         String command = null;
         while (true) {
+            System.out.print("If you want to use superman, please enter 1, else 0: ");
+            String opt = scanner.nextLine();
             System.out.print("Please input the command line: ");
-            try {
-                command = translator.translate(scanner.nextLine());
-            }  catch (NoTokenFoundException | InvalidParameterException e) {
-                e.printStackTrace();
+            if (opt.equals("1")) {
+                try {
+                    command = translator.translate(scanner.nextLine());
+                } catch (NoTokenFoundException | InvalidParameterException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                command = scanner.nextLine();
             }
             System.out.println(String.format("Please tell me whether you want to execute: %s", command));
 
