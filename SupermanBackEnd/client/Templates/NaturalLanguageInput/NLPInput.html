@@ -1,8 +1,18 @@
 
 <template name="nlpInput">
     <form class="nlp-input" >
-        <p><b>Please Input</b></p>
-        <input type="text" name="text" placeholder="natural language Input" />
-        <input type="submit" value="Submit" class="nlp-input">
+        <!--<p><b>Please Input</b></p>-->
+        <!--<input type="text" name="text" placeholder="natural language Input" />-->
+        <!--<input type="submit" value="Submit" class="nlp-input">-->
+        <div class="form-group">
+            <label>Requirement Input</label>
+            <textarea type="text" name="text" placeholder="natural language Input" class="form-control" rows="3"></textarea>
+            <p class="help-block">Example write clone XXX file</p>
+        </div>
+
+        <!--<input type="submit" value="Submit" class="nlp-input">-->
+
+        <button id="transGitBtn" type="submit" value="Submit" class="nlp-input" >Translate to Git</button>
+
     </form>
 </template>
