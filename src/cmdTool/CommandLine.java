@@ -1,8 +1,8 @@
 package cmdTool;
 
-import semantics.exception.InvalidParameterException;
-import semantics.exception.NoTokenFoundException;
-import semantics.translate.NLTranslator;
+//import semantics.exception.InvalidParameterException;
+//import semantics.exception.NoTokenFoundException;
+//import semantics.translate.NLTranslator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class CommandLine {
     public static final String ANSI_WHITE = "\u001B[37m";
 
     public static void main(String[] args) {
-        NLTranslator translator = new NLTranslator("git", "compile");
+//        NLTranslator translator = new NLTranslator("git", "compile");
         Scanner scanner = new Scanner(System.in);
         String command = null;
         while (true) {
