@@ -27,17 +27,17 @@ public class CommandLine {
         String command = null;
         while (true) {
             System.out.print(ANSI_GREEN + "If you want to use superman, please enter 1, else 0: " + ANSI_RESET);
-            String opt = scanner.nextLine();
+//            String opt = scanner.nextLine();
             System.out.print(ANSI_GREEN + "\nPlease input the command line: " + ANSI_RESET);
-            if (opt.equals("1")) {
-                try {
-                    command = translator.translate(scanner.nextLine());
-                } catch (NoTokenFoundException | InvalidParameterException e) {
-                    System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
-                }
-            } else {
+//            if (opt.equals("1")) {
+//                try {
+//                    command = translator.translate(scanner.nextLine());
+//                } catch (NoTokenFoundException | InvalidParameterException e) {
+//                    System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
+//                }
+//            } else {
                 command = scanner.nextLine();
-            }
+//            }
             System.out.println(String.format(ANSI_GREEN + "\nPlease tell me whether you want to execute: "+ ANSI_RED + "%s" + ANSI_RESET + ANSI_RESET, command));
 
             System.out.print(ANSI_GREEN + "\nIf yes, please enter 1. If no, please enter 0: " + ANSI_RESET);
