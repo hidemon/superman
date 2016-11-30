@@ -27,6 +27,7 @@ public class NLTranslator {
 
 	public NLTranslator(String... args) {
 		semanticsMap = new SemanticsMap(args);
+		/**
 		try {
 			autoCompleter = new AutoComplete("command.csv");
 			classifier = new TokenizedLMClassifier();
@@ -34,6 +35,7 @@ public class NLTranslator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		**/
 	}
 
 	public String translate(String input) throws NoTokenFoundException, InvalidParameterException {
@@ -46,10 +48,12 @@ public class NLTranslator {
 		}
 		String commandCore = "";
 		if (tokens.size() == 0) {
-			commandCore = classifier.classify(input);
+			return "Cannot recognize the command!";
+			/** commandCore = classifier.classify(input);
 			if (commandCore.isEmpty()) {
 				return autoCompleter.autoComplete(input);
 			}
+			**/
 		} else {
 			commandCore = tokens.get(0);	
 		}
@@ -77,13 +81,14 @@ public class NLTranslator {
 		case "run":
 			return CompilationTranslator.translateRun(input);
 		// test classifier
-		case "test":
-			return "Classify Test!";
+//		case "test":
+//			return "Classify Test!";
 		default:
 			return "Cannot recognize the command!";
 		}
-
 	}
+	
+	
 
 	public static void main(String[] args) {
 
