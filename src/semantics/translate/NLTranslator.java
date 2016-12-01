@@ -72,6 +72,8 @@ public class NLTranslator {
 			return GitTranslator.translateMv(input);
 		case "commit":
 			return GitTranslator.translateCommit(input);
+		case "push":
+			return GitTranslator.translatePush(input);
 		case "merge":
 			return GitTranslator.translateMerge(input);
 		case "reset":
@@ -125,6 +127,9 @@ public class NLTranslator {
 			System.out.println(translator.translate(command));
 			
 			command = "nlp fetch #origin branch";
+			System.out.println(translator.translate(command));
+			
+			command = "nlp push origin master";
 			System.out.println(translator.translate(command));
 			
 			command = "nlp test is going on?";

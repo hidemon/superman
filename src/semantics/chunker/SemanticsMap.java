@@ -35,6 +35,7 @@ public class SemanticsMap {
 		dictionary.addEntry(new DictionaryEntry<String>("clone", "clone", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("merge", "merge", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("pull", "pull", CHUNK_SCORE));
+		dictionary.addEntry(new DictionaryEntry<String>("push", "push", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("fetch", "fetch", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("sync", "pull", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("synchronize", "pull", CHUNK_SCORE));

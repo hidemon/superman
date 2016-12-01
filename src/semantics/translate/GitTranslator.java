@@ -22,8 +22,8 @@ import semantics.exception.NoTokenFoundException;
  */
 public class GitTranslator {
 
-	final static String[] strategies = {"resolve", "recursive", "ours", "octopus", "subtree"};
-	
+	final static String[] strategies = { "resolve", "recursive", "ours", "octopus", "subtree" };
+
 	public static String translateDiff(String input) throws InvalidParameterException, NoTokenFoundException {
 		Chunker chunker = new SHARegExChunker();
 		Chunking chunking = chunker.chunk(input);
@@ -60,7 +60,7 @@ public class GitTranslator {
 		result.append(input.substring(urlChunk.start(), urlChunk.end()));
 		return result.toString();
 	}
-	
+
 	public static String translateMv(String input) throws InvalidParameterException, NoTokenFoundException {
 		Chunker chunker = new FilenameRegExChunker();
 		Chunking chunking = chunker.chunk(input);
@@ -118,7 +118,7 @@ public class GitTranslator {
 		result.append(' ').append(input.substring(urlChunk.start() + 1, urlChunk.end()));
 		return result.toString();
 	}
-	
+
 	public static String translateRm(String input) throws NoTokenFoundException, InvalidParameterException {
 		Chunker chunker = new FilenameRegExChunker();
 		Chunking chunking = chunker.chunk(input);
@@ -134,17 +134,17 @@ public class GitTranslator {
 		result.append(input.substring(urlChunk.start(), urlChunk.end()));
 		return result.toString();
 	}
-	
+
 	public static String translateCommit(String input) throws NoTokenFoundException {
 		// Default comment
 		String comment = "new commit";
 		int commentS = input.indexOf('"');
 		if (commentS != -1) {
-			 input = input.substring(commentS);
-			 int commentE = input.indexOf('"');
-			 if (commentE != -1) {
-				 comment = input.substring(0, commentE + 1);
-			 }
+			input = input.substring(commentS);
+			int commentE = input.indexOf('"');
+			if (commentE != -1) {
+				comment = input.substring(0, commentE + 1);
+			}
 		}
 		return "git commit -m " + "\"" + comment + "\"";
 	}
@@ -187,6 +187,26 @@ public class GitTranslator {
 		Chunk urlChunk = chunkSet.iterator().next();
 		StringBuilder result = new StringBuilder("git reset --hard ");
 		result.append(input.substring(urlChunk.start(), urlChunk.end()));
+		return result.toString();
+	}
+
+	public static String translatePush(String input) throws NoTokenFoundException {
+		Chunker chunker = new BranchRegExChunker();
+		Chunking chunking = chunker.chunk(input);
+		Set<Chunk> chunkSet = chunking.chunkSet();
+		if (chunkSet.size() == 0) {
+			return "git push original master";
+		}
+		StringBuilder result = new StringBuilder("git push");
+
+		Iterator<Chunk> it = chunkSet.iterator();
+		while (it.hasNext()) {
+			Chunk chunk = it.next();
+			int start = chunk.start();
+			int end = chunk.end();
+			String branchName = input.substring(start, end);
+			result.append(' ').append(branchName.charAt(0) == '#' ? branchName.substring(1) : branchName);
+		}
 		return result.toString();
 	}
 }

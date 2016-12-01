@@ -10,7 +10,7 @@ public class BranchRegExChunker extends RegExChunker {
         super(BRANCH_REGEX,CHUNK_TYPE,CHUNK_SCORE);
     }
 
-    private final static String BRANCH_REGEX = "#[a-z0-9]+";
+    private final static String BRANCH_REGEX = "(#[a-z0-9]+)|origin master";
 
     private final static String CHUNK_TYPE = "branch";
 
