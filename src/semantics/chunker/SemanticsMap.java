@@ -26,6 +26,11 @@ public class SemanticsMap {
 	}
 
 	public void setUpGit() {
+		dictionary.addEntry(new DictionaryEntry<String>("status", "status", CHUNK_SCORE));
+		dictionary.addEntry(new DictionaryEntry<String>("config", "config", CHUNK_SCORE));
+		dictionary.addEntry(new DictionaryEntry<String>("configuration", "config", CHUNK_SCORE));
+		dictionary.addEntry(new DictionaryEntry<String>("set", "config", CHUNK_SCORE));
+		
 		dictionary.addEntry(new DictionaryEntry<String>("difference", "diff", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("diff", "diff", CHUNK_SCORE));
 		dictionary.addEntry(new DictionaryEntry<String>("distinction", "diff", CHUNK_SCORE));

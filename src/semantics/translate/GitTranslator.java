@@ -8,6 +8,7 @@ import com.aliasi.chunk.Chunker;
 import com.aliasi.chunk.Chunking;
 
 import semantics.chunker.BranchRegExChunker;
+import semantics.chunker.EmailRegExChunker;
 import semantics.chunker.FilenameRegExChunker;
 import semantics.chunker.SHARegExChunker;
 import semantics.chunker.UrlRegExChunker;
@@ -115,7 +116,8 @@ public class GitTranslator {
 			throw new InvalidParameterException();
 		}
 		Chunk urlChunk = chunkSet.iterator().next();
-		result.append(' ').append(input.substring(urlChunk.start() + 1, urlChunk.end()));
+		String branchName = input.substring(urlChunk.start(), urlChunk.end());
+		result.append(' ').append(branchName.charAt(0) == '#' ? branchName.substring(1) : branchName);
 		return result.toString();
 	}
 
@@ -135,15 +137,15 @@ public class GitTranslator {
 		return result.toString();
 	}
 
-	public static String translateCommit(String input) throws NoTokenFoundException {
+	public static String translateCommit(String input) {
 		// Default comment
 		String comment = "new commit";
 		int commentS = input.indexOf('"');
 		if (commentS != -1) {
-			input = input.substring(commentS);
+			input = input.substring(commentS + 1);
 			int commentE = input.indexOf('"');
 			if (commentE != -1) {
-				comment = input.substring(0, commentE + 1);
+				comment = input.substring(0, commentE);
 			}
 		}
 		return "git commit -m " + "\"" + comment + "\"";
@@ -169,7 +171,8 @@ public class GitTranslator {
 			Chunk chunk = it.next();
 			int start = chunk.start();
 			int end = chunk.end();
-			result.append(' ').append(input.substring(start + 1, end));
+			String branchName = input.substring(start, end);
+			result.append(' ').append(branchName.charAt(0) == '#' ? branchName.substring(1) : branchName);
 		}
 		return result.toString();
 	}
@@ -208,5 +211,38 @@ public class GitTranslator {
 			result.append(' ').append(branchName.charAt(0) == '#' ? branchName.substring(1) : branchName);
 		}
 		return result.toString();
+	}
+
+	public static String translateConfig(String input) throws NoTokenFoundException, InvalidParameterException {
+		Chunker chunker = new EmailRegExChunker();
+		Chunking chunking = chunker.chunk(input);
+		Set<Chunk> chunkSet = chunking.chunkSet();
+		if (chunkSet.size() != 0) {
+			// Config with email
+			Chunk chunk = chunkSet.iterator().next();
+			int start = chunk.start();
+			int end = chunk.end();
+			String email = input.substring(start, end);
+			return "git config --global user.email " + "\"" + email + "\"";
+		} else {
+			// Config with name
+			int nameS = input.indexOf('"');
+			if (nameS != -1) {
+				input = input.substring(nameS + 1);
+				int nameE = input.indexOf('"');
+				if (nameE != -1) {
+					String name  = input.substring(0, nameE);
+					return "git config --global user.name " + "\"" + name + "\"";
+				} else {
+					throw new InvalidParameterException();
+				}
+			} else {
+				throw new NoTokenFoundException();
+			}
+		}
+	}
+
+	public static String translateStatus(String input) {
+		return "git status";
 	}
 }

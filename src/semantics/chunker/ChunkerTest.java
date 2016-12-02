@@ -106,4 +106,23 @@ public class ChunkerTest {
             assertEquals(result, expectedResult[i++]);
         }
 	}
+	
+	@Test
+	public void EmailRegExTest() {
+		Chunker chunker = new EmailRegExChunker();
+		String s = "nlp git set email \"superman@gmail.com\"";
+		String[] expectedResult = {"superman@gmail.com"};
+		int i = 0;
+        Chunking chunking = chunker.chunk(s);
+        Set<Chunk> chunkSet = chunking.chunkSet();
+        assertTrue(chunking.chunkSet().size() > 0);
+        Iterator<Chunk> it = chunkSet.iterator();
+        while (it.hasNext()) {
+            Chunk chunk = it.next();
+            int start = chunk.start();
+            int end = chunk.end();
+            String result = s.substring(start,end);
+            assertEquals(result, expectedResult[i++]);
+        }
+	}
 }

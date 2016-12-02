@@ -78,10 +78,15 @@ public class NLTranslator {
 			return GitTranslator.translateMerge(input);
 		case "reset":
 			return GitTranslator.translateReset(input);
+		case "config":
+			return GitTranslator.translateConfig(input);
+		case "status":
+			return GitTranslator.translateStatus(input);
 		case "compile":
 			return CompilationTranslator.translateCompile(input);
 		case "run":
 			return CompilationTranslator.translateRun(input);
+
 		// test classifier
 //		case "test":
 //			return "Classify Test!";
@@ -95,7 +100,7 @@ public class NLTranslator {
 	public static void main(String[] args) {
 
 		NLTranslator translator = new NLTranslator("git", "compile");
-		String command = "superman find difference between 52345f and d89a32";
+		String command = "nlp find difference between 52345f and d89a32";
 		try {
 			System.out.println(translator.translate(command));
 
@@ -120,13 +125,25 @@ public class NLTranslator {
 			command = "nlp make commission";
 			System.out.println(translator.translate(command));
 			
+			command = "nlp make commission \"small fix\"";
+			System.out.println(translator.translate(command));
+			
+			command = "nlp see status";
+			System.out.println(translator.translate(command));
+			
+			command = "nlp set my email \"superman@gmail.com\"";
+			System.out.println(translator.translate(command));
+			
+			command = "nlp set my name \"superman\"";
+			System.out.println(translator.translate(command));
+			
 			command = "nlp please merge #abc and #xyz using stratege ours";
 			System.out.println(translator.translate(command));
 			
 			command = "nlp please reset 532eac";
 			System.out.println(translator.translate(command));
 			
-			command = "nlp fetch #origin branch";
+			command = "nlp fetch origin master";
 			System.out.println(translator.translate(command));
 			
 			command = "nlp push origin master";
