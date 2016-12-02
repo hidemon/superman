@@ -1,3 +1,2 @@
-cd src
-java cmdTool.CommandLine
+java CommandLine
 
