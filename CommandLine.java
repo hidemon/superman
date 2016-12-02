@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,10 +12,12 @@ class ReturnType{
 public class CommandLine {
 
     private static BufferedReader getOutput(Process p) {
-        return new BufferedReader(new InputStreamReader(.getInputStream()));
+        return new BufferedReader(new InputStreamReader(p.getInputStream()));
     }
 
-    private static BufferedReader
+    private static BufferedReader getError(Process p) {
+        return new BufferedReader(new InputStreamReader(p.getErrorStream()));
+    }
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -30,26 +33,54 @@ public class CommandLine {
         Scanner scanner = new Scanner(System.in);
         String nlpInput = null;
         while (true) {
-            System.out.print(ANSI_GREEN + "If you want to use nlp-git, please enter 1, else 0: " + ANSI_RESET);
-            String opt = scanner.nextLine();
+//            System.out.print(ANSI_GREEN + "If you want to use nlp-git, please enter 1, else 0: " + ANSI_RESET);
+//            String opt = scanner.nextLine();
             System.out.print(ANSI_GREEN + "\nPlease input the natural language: " + ANSI_RESET);
             nlpInput = scanner.nextLine();
-            if (opt.equals("1")) {
-                nlpInput = "nlp \"" + nlpInput + "\"";
-            }
+            nlpInput = "nlp \"" + nlpInput + "\"";
+//            if (opt.equals("1")) {
+//                nlpInput = "nlp \"" + nlpInput + "\"";
+//            }
 
-            boolean nlpTranslationResult = execute(nlpInput);
+            String[] results = execute(nlpInput);
 
-            if (nlpTranslationResult) {
-                System.out.print(ANSI_GREEN + "\nIf yes, please enter 1. If no, please enter 0: " + ANSI_RESET);
-                if (nlpTranslationResult) {
-                    String standardCommand = n;
-                    execute(standardCommand);
+            String nlpTranslationResult = results[0];
+            String nlpErrrorResult = results[1];
+
+            if (nlpErrrorResult.length() > 0) {
+                System.out.println(ANSI_RED + "Error Message" + ANSI_RESET);;
+                System.out.print(ANSI_RED + "\t" + nlpErrrorResult + ANSI_RESET);
+                continue;
+            } else {
+                System.out.println(ANSI_GREEN + "Do you mean" +ANSI_RESET);
+                System.out.println(ANSI_BLUE + "\t" + nlpTranslationResult + ANSI_RESET);
+                System.out.println(ANSI_GREEN + "Do you want to execute it? If yes, input Y or No input N" + ANSI_RESET);
+                String ConfirmationInput = scanner.nextLine();
+                if (ConfirmationInput.equals("Y")) {
+                  String[] commandExecutionResult = execute(nlpTranslationResult);
+                    String correctInformation = commandExecutionResult[0];
+                    String errorInformation = commandExecutionResult[1];
+                    System.out.println(ANSI_BLUE + "The correct information is: "+ ANSI_RESET);
+                    System.out.println(ANSI_BLUE + correctInformation + ANSI_RESET);
+                    if(errorInformation != "")System.out.println(ANSI_RED + "The error information is: " + ANSI_RESET);
+                    System.out.println(ANSI_RED + errorInformation + ANSI_RESET);
                     continue;
+
                 } else {
-                     continue;
+                    continue;
                 }
             }
+
+//            if (nlpTranslationResult) {
+//                System.out.print(ANSI_GREEN + "\nIf yes, please enter 1. If no, please enter 0: " + ANSI_RESET);
+//                if (nlpTranslationResult) {
+//                    String standardCommand = n;
+//                    execute(standardCommand);
+//                    continue;
+//                } else {
+//                     continue;
+//                }
+//            }
 
 //            System.out.println(String.format(ANSI_GREEN + "\nPlease tell me whether you want to execute: "+ ANSI_RED + "%s" + ANSI_RESET + ANSI_RESET, command));
 //
@@ -68,7 +99,7 @@ public class CommandLine {
         }
     }
 
-    private static ReturnType execute(String line) {
+    private static String[] execute(String line) {
         Runtime rt = Runtime.getRuntime();
         Process pr;
         try {
@@ -87,21 +118,41 @@ public class CommandLine {
             }
         } catch (IOException e) {
             System.out.print(ANSI_RED + e.getMessage() + ANSI_RESET);
-            ReturnType res = new ReturnType();
-            return res;
+            return null ;
         }
 
         BufferedReader output = getOutput(pr);
         BufferedReader error = getError(pr);
+
+        String strResult = "";
+        String strError = "";
+        String reading = "";
+        try {
+            while ((reading = output.readLine()) != null) {
+                strResult += reading;
+
+            }
+            reading = "";
+            while ((reading =error.readLine()) != null) {
+                strError += reading;
+            }
+            return new String[]{strResult, strError};
+        }catch (IOException e) {
+            return null;
+        }
+
+
 //        BufferedReader stdInput = null, stdError = null;
 //        if (pr.getInputStream() != null) {
 //            stdInput = new BufferedReader(new
 //                    InputStreamReader(pr.getInputStream()));
 //        }
+
 //        if (pr.getInputStream() != null) {
 //            stdError = new BufferedReader(new
 //                    InputStreamReader(pr.getErrorStream()));
 //        }
+
 //        if (stdInput != null) {
 //            System.out.println(ANSI_PURPLE + "\nHere is the standard output of the command:" + ANSI_RESET);
 //            print(stdInput, true);
