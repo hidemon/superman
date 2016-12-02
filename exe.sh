@@ -1,1 +1,1 @@
-java -jar nlp.jar $1
+java -jar nlp.jar "$1"
