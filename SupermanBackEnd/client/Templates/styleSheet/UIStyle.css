@@ -1,0 +1,44 @@
+/* CSS declarations go here */
+.background_region1{
+    background-color: black;
+}
+
+.about_font {
+    font-family:"Fira Code";
+    font-size:30px;
+}
+
+.about_font_2 {
+    font-family:"DejaVu Sans Mono for Powerline";
+    font-size:30px;
+}
+
+.smaller_font{
+    font-family:Courier;
+    font-size:20px;
+}
+
+.smaller_font_2{
+    font-family:"Fira Code";
+    font-size:20px;
+}
+
+.code_font{
+    font-size:20px;
+}
+
+
+.big_font{
+    font-size:100px;
+}
+
+
+.mywidth{
+    width:80%;;
+}
+
+.font_page_font {
+    text-align: center;
+    font-weight: 900;
+    font-family:"Source Code Pro"
+}

@@ -1,0 +1,15 @@
+#!/usr/local/bin/python
+import sys
+
+if sys.argv[1] == 'init my repo':
+    print "git init"
+if sys.argv[1] == 'add all change':
+    print "git add --all"
+if sys.argv[1] == 'commit it':
+    print "git commit -m \"adding\""
+if sys.argv[1] == 'push to github':
+    print "git push origin master"
+if sys.argv[1] == 'show status':
+    print "git status"
+if sys.argv[1] == 'error message':
+    print >> sys.stderr, 'cannot process';
